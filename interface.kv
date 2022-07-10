@@ -1,0 +1,371 @@
+
+<Gerenciador>:
+            
+    Menu:
+        name: 'menu'
+        
+    Pressvap:
+        name: 'pressvap'
+
+    Classtemp:
+        name: 'classtemp'
+
+
+<Menu>:
+    canvas:
+        Color:
+            rgb: 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: 0, 0
+
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'top'
+        padding: 20
+        pos: 0, 90
+        Image:
+            source: 'LogoApp.png'
+            size_hint: (None, None)
+            size: 200, 200
+            pos_hint: {'x': 0.04, 'y': 0.75}
+
+    AnchorLayout:
+        anchor_x: 'center'   
+        anchor_y: 'center'   
+
+        GridLayout:
+            cols: 2
+            padding: 100
+            spacing: 100
+            pos_hint: {'top': 0.9}
+            font_text: 20
+
+            #Image:
+                #source: 'LogoApp.png'
+                #size: self.size
+                #spacing: 60
+                #background_color: 0, 1, 0, 1
+# Pressvap
+            AnchorLayout:
+                anchor_x: 'center'   
+                anchor_y: 'center'   
+                Button:
+                    background_normal: 'volatil2.png'
+                    size_hint: (None, None)
+                    size: 200, 200
+                    border: 0, 0, 0, 0
+                    on_release: app.root.current = 'pressvap'
+
+# Classtemp...
+            AnchorLayout:
+                anchor_x: 'center'   
+                anchor_y: 'center'
+                Button:
+                    background_normal: 'volatil3.png'
+                    size_hint: (None, None)
+                    size: 200, 200
+                    border: 0, 0, 0, 0
+                    on_release: app.root.current = 'classtemp'
+# Créditos
+            AnchorLayout:
+                anchor_x: 'center'   
+                anchor_y: 'center'
+                Button:
+                    background_normal: 'popup2.png'
+                    size_hint: (None, None)
+                    size: 200, 200
+                    border: 0, 0, 0, 0
+                    on_release: root.creditos_popup()
+# Sair
+            AnchorLayout:
+                anchor_x: 'center'   
+                anchor_y: 'center'
+                Button:
+                    background_normal: 'sair2.png'
+                    size_hint: (None, None)
+                    size: 200, 200
+                    border: 0, 0, 0, 0
+                    on_release: app.stop()     
+
+# Animação Inicial    
+    FloatLayout:        
+        Button:
+            background_color: 255, 255, 255, 1
+            size: self.size
+            on_release: app.animation(self)
+            Image:
+                source: 'LogoApp.png'
+                size_hint: (None, None)
+                size: 400, 400
+                # Centralizar imagens
+                center: self.parent.center
+
+<Pressvap>
+    canvas:
+        Color:
+            rgb: 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: 0, 0
+
+    a: a
+    b: b
+    unipress: unipress
+    resultado: resultado
+    unidade: unidade
+    
+    GridLayout:
+        cols: 1
+        spacing: 25 
+        padding: 100
+
+        BoxLayout:
+            Label:
+                id: resultado
+                text: ' '
+                # Permite a quebra de texto
+                size_hint_y: None
+                text_size: self.width, None
+                height: self.texture_size[1]
+
+                font_size: 90
+                font_name: "Cordia"
+                color: [100, 100, 100, 1]
+            
+        BoxLayout:
+            id: unipress
+            size_hint: 1, 0.2
+            pos_hint: {'center_x': 1, 'center_y': 1}
+            text: input1.text
+            MDTextField:
+                id: input1
+                hint_text: "unidade de pressão"
+                helper_text: "Digite a unidade de pressão utilizada"
+                line_color_normal: 0, 0, 0, 0.3
+                foreground_color: 0, 0, 0, 1
+            
+        BoxLayout:
+            id: a
+            size_hint: 1, 0.2
+            pos_hint: {'center_x': 1, 'center_y': 1}
+            input_filter: 'float'
+            text: input2.text
+            MDTextField:
+                id: input2
+                hint_text: "fração molar"
+                hint_text_color: 0, 0, 1, 1
+                helper_text: "Digite o valor"
+                line_color_normal: 0, 0, 0, 0.3
+                foreground_color: 0, 0, 0, 1
+
+        BoxLayout:
+            id: b
+            size_hint: 1, 0.2
+            pos_hint: {'center_x': 1, 'center_y': 1}
+            input_filter: 'float'
+            text: input3.text
+            MDTextField:
+                id: input3
+                hint_text: "pressão de vapor"
+                helper_text: "Digite o valor"
+                line_color_normal: 0, 0, 0, 0.3
+                foreground_color: 0, 0, 0, 1
+      
+    FloatLayout:
+        BoxLayout:
+            orientation: 'vertical'
+            pos_hint: {'x': 0, 'y': 0.27}
+            spacing: 5
+
+# Adicionar Dados
+            Button:
+                background_normal: 'adicionar.png'
+                size_hint: (None, None)
+                size: 80, 80
+                border: 0, 0, 0, 0
+                on_release: root.save(); input2.text = ''; input3.text = ''
+
+# Resultado
+            Button:
+                background_normal: 'igual.png'
+                size_hint: (None, None)
+                size: 80, 80
+                border: 0, 0, 0, 0
+                on_release: root.calcpress()
+                # chame a id seguida por "text" para interpretar como valor
+
+# Limpar Dados
+            Button:
+                background_normal: 'restart.png'
+                size_hint: (None, None)
+                size: 80, 80
+                border: 0, 0, 0, 0
+                on_release: root.limpar(); input2.text = ''; input3.text = ''; input1.text = ''; resultado.text = ''; unidade.text = '';   
+
+# unidade de pressão
+    FloatLayout:
+        Label:
+            id: unidade
+            text: ' '
+            pos_hint: {'center_x': 0.80, 'center_y': 0.55}
+            font_size: 30
+            font_name: "Cordia"
+            color: [0.5, 0.5, 0.5, 1]
+
+# Título
+    FloatLayout:
+        Label:
+            text: 'Calcular Pressão de Vapor'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+            font_size: 30
+            font_name: "Cordia"
+            color: [0.5, 0.5, 0.5, 1]
+
+# Voltar
+    FloatLayout:
+        Button:
+            background_normal: 'seta.png'
+            pos_hint: {"right": 0.980, 'y': 0.03}
+            size_hint: (None, None)
+            size: 50, 50
+            border: 0, 0, 0, 0
+            on_release: app.root.current = 'menu' 
+
+
+<Classtemp>
+    canvas:
+        Color:
+            rgb: 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: 0, 0
+
+    c: c
+    d: d
+    e: e
+    f: f
+    classificar1: classificar1
+    classificar2: classificar2
+    #fazem uma ponte com a função no python
+
+
+            
+
+    GridLayout:
+        cols: 2
+        spacing: 25 
+        padding: 100
+        BoxLayout:
+            Label:
+                id: classificar1
+                text: ' '
+                font_name: 'Cordia'
+                font_size: 30
+                color: [0, 0, 0, 1]
+                size_hint_y: None
+                text_size: self.width, None
+                height: self.texture_size[1]
+
+        BoxLayout:
+            Label:
+                id: classificar2
+                text: ' '
+                font_name: 'Cordia'
+                font_size: 30
+                color: [0, 0, 0, 1]
+                size_hint_y: None
+                text_size: self.width, None
+                height: self.texture_size[1]
+
+        BoxLayout: #Preencher
+            Label: #Espaço
+        BoxLayout: #No
+            Label: #Layout
+
+# Pressão maior
+        BoxLayout:
+            size_hint: 1, 0.2
+            input_filter: 'float'
+            text: c.text
+            MDTextField:
+                id: c
+                hint_text: "substância com maior pressão de vapor"
+                helper_text: "Digite o valor"
+                line_color_normal: 0, 0, 0, 0.3
+                foreground_color: 0, 0, 0, 1
+# Pressão menor
+        BoxLayout:
+            size_hint: 1, 0.2
+            input_filter: 'float'
+            text: e.text
+            MDTextField:
+                id: e
+                hint_text: "substância com menor pressão de vapor"
+                helper_text: "Digite o valor"
+                line_color_normal: 0, 0, 0, 0.3
+                foreground_color: 0, 0, 0, 1
+# Valor maior
+        BoxLayout:
+            size_hint: 1, 0.2
+            input_filter: 'float'
+            text: d.text
+            MDTextField:
+                id: d
+                hint_text: "pressão de vapor"
+                helper_text: "Digite o valor"
+                line_color_normal: 0, 0, 0, 0.3
+                foreground_color: 0, 0, 0, 1
+# Valor menor
+        BoxLayout:
+            size_hint: 1, 0.2
+            input_filter: 'float'
+            text: f.text
+            MDTextField:
+                id: f
+                hint_text: "pressão de vapor"
+                helper_text: "Digite o valor"
+                line_color_normal: 0, 0, 0, 0.3
+                foreground_color: 0, 0, 0, 1
+
+# Botões
+    FloatLayout:
+        BoxLayout:
+            orientation: 'vertical'
+            pos_hint: {'x': 0, 'y': 0.195}
+            spacing: 5
+
+# Comparar
+            Button:
+                background_normal: 'igual.png'
+                size_hint: (None, None)
+                size: 80, 80
+                border: 0, 0, 0, 0
+                on_release: root.comparador()
+# Limpar Dados
+            Button:
+                background_normal: 'restart.png'
+                size_hint: (None, None)
+                size: 80, 80
+                border: 0, 0, 0, 0
+                on_release: c.text = ''; d.text = ''; e.text = ''; f.text = ''; classificar1.text = ''; classificar2.text = ''
+
+# Título
+    FloatLayout:
+        Label:
+            text: 'Comparar Volatilidades'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+            font_size: 30
+            font_name: "Cordia"
+            color: [0.5, 0.5, 0.5, 1]
+
+
+# Voltar
+    FloatLayout:
+        Button:
+            background_normal: 'seta.png'
+            pos_hint: {"right": 0.980, 'y': 0.03}
+            size_hint: (None, None)
+            size: 50, 50
+            border: 0, 0, 0, 0
+            on_release: app.root.current = 'menu' 
